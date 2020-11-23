@@ -12,4 +12,5 @@
         <item>AB-ve</item>
         <item>Bombay Blood Group</item>
     </string-array>
+    <string name="employee_id">Employee Id:</string>
 </resources>

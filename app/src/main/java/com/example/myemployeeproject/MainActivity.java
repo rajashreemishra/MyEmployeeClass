@@ -1,9 +1,12 @@
 package com.example.myemployeeproject;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private EditText metemployee_id;
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText metemail_address;
     private String position_array_bloodgroup="";
     private Spinner spin_bloodgrp;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        dbHelper=new DatabaseHelper(MainActivity.this);
     }
     public void EmployeeDetails(View view){
         String empid=metemployee_id.getText().toString();
@@ -94,25 +100,22 @@ public class MainActivity extends AppCompatActivity {
             Intent mintent=new Intent(MainActivity.this,HomeActivity.class);
             mintent.putExtra("EMPLOYEEDETAILS",empdetails);
             startActivity(mintent);
+
+
+            dbHelper.InsertDetailsIntoDatabase(dbHelper.getWritableDatabase(),empdetails);
+
             metemployee_id.setText("");
             metemployee_name.setText("");
             metemployee_phn_no.setText("");
             metemail_address.setText("");
             metdesignation.setText("");
             spin_bloodgrp.setSelection(0);
-
-
+            setResult(Activity.RESULT_OK);
+            finish();
+           // ArrayList<Employee> array=dbHelper.DeleteDatabaseDetails(dbHelper.getReadableDatabase());
+           // Toast.makeText(MainActivity.this,"No of entries in database are"+array.size(),Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
-
-
-
     }
-
 
 
 }
